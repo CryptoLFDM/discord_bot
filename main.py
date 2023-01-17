@@ -58,7 +58,7 @@ async def exchange(interaction):
     await interaction.response.send_message(embed=embed)
 
 
-@client.tree.command(name="help", description="Display help")
+@client.tree.command(name="help", description="Affiche l'aide")
 async def exchange(interaction):
     embed = discord.Embed(
     )
