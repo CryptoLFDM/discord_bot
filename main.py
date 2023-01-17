@@ -1,11 +1,8 @@
 import logging
-from enum import Enum
-
 import discord
 from discord import app_commands
 import requests
 import humanize
-from typing import List
 
 from config import load_config
 from coin import Coin, MapperSite, MapperApi
@@ -13,7 +10,6 @@ from coin import Coin, MapperSite, MapperApi
 humanize.i18n.activate("fr_FR")
 cfg = load_config()
 MY_GUILD = discord.Object(cfg["guild"])
-
 
 
 class MyClient(discord.Client):
@@ -37,19 +33,15 @@ class MyClient(discord.Client):
         await self.tree.sync(guild=MY_GUILD)
 
 
-
 intents = discord.Intents.default()
 client = MyClient(intents=intents)
-
 
 
 @client.event
 async def on_ready():
     for guild in client.guilds:
-        print(
-            f'{client.user} is connected to the following guild:\n'
-            f'{guild.name}(id: {guild.id})'
-        )
+        logging.info("{} is connected to the following guild:", client.user)
+        logging.info("{} ( id: {} )".format(guild.name, guild.id))
 
 
 @client.tree.command(name="exchange", description="Display All Exchange Url")
@@ -64,26 +56,6 @@ async def exchange(interaction):
     embed.add_field(name="", value="<:gate_io:1064704684796940348> [Gate.io]({})".format(cfg["gate_io_url"]), inline=True)
 
     await interaction.response.send_message(embed=embed)
-
-
-@client.tree.command(name="binance", description="Display Binance Exchange Url")
-async def binance(interaction):
-    file = discord.File("assets/binance.png", filename="image.png")
-    embed = discord.Embed(
-        color=discord.Color.yellow(),
-    )
-    embed.set_author(name="Binance", url=cfg["binance_url"], icon_url="attachment://image.png")
-    await interaction.response.send_message(embed=embed, file=file,)
-
-
-@client.tree.command(name="kucoin", description="Display Kucoin Exchange Url")
-async def kucoin(interaction):
-    file = discord.File("assets/kucoin.png", filename="image.png")
-    embed = discord.Embed(
-        color=discord.Color.green(),
-    )
-    embed.set_author(name="Kucoin", url=cfg["kucoin_url"], icon_url="attachment://image.png")
-    await interaction.response.send_message(embed=embed, file=file,)
 
 
 @client.tree.command(name="coin", description="Display coin info")
