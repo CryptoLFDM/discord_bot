@@ -1,2 +1,4 @@
 discord
 humanize
+pyaml
+requests
