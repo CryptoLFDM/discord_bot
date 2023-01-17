@@ -40,11 +40,11 @@ client = MyClient(intents=intents)
 @client.event
 async def on_ready():
     for guild in client.guilds:
-        logging.info("{} is connected to the following guild:", client.user)
-        logging.info("{} ( id: {} )".format(guild.name, guild.id))
+        print("{} is connected to the following guild:", client.user)
+        print("{} ( id: {} )".format(guild.name, guild.id))
 
 
-@client.tree.command(name="exchange", description="Display All Exchange Url")
+@client.tree.command(name="exchange", description="Affiche les urls des exchanges")
 async def exchange(interaction):
     embed = discord.Embed(
     )
@@ -58,8 +58,25 @@ async def exchange(interaction):
     await interaction.response.send_message(embed=embed)
 
 
-@client.tree.command(name="coin", description="Display coin info")
-@app_commands.describe(denom='Harvest this Coin Info')
+@client.tree.command(name="help", description="Display help")
+async def exchange(interaction):
+    embed = discord.Embed(
+    )
+    file = discord.File("assets/lfdm.png", filename="image.png")
+
+    embed.set_author(name="Salut c'est le bot LFDM, pour vous servir", icon_url="attachment://image.png")
+#    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name="/exchange", value="Affiche les urls officiels des exchanges", inline=False)
+    embed.add_field(name="/coin denom", value="Affiche des infos sur le token choisis", inline=False)
+    embed.add_field(name="Tu veux contribuer  ?", value="[Click ici]({})".format(cfg["pr_url"]), inline=False)
+    embed.add_field(name="Tu as une demande ou trouvé un bug ?", value="[Click ici]({})".format(cfg["bug_url"]), inline=False)
+    embed.set_footer(text="A+")
+
+    await interaction.response.send_message(embed=embed, file=file)
+
+
+@client.tree.command(name="coin", description="Affiches les info financieres du token")
+@app_commands.describe(denom='Collecte les info de ce token')
 async def coin(interaction: discord.Interaction, denom: Coin):
     url = "{}/{}".format(cfg["gecko_api_url"],  MapperApi[denom.name])
     resp = requests.get(url)
