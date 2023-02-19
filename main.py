@@ -103,4 +103,20 @@ async def coin(interaction: discord.Interaction, denom: Coin):
 
     await interaction.response.send_message(embed=embed,)
 
+
+@client.tree.command(name="faucet", description="Affiche les urls des faucets")
+async def faucet(interaction):
+    embed = discord.Embed(
+    )
+    embed.add_field(name="", value="<:bnb:1064661268834824233> [BNB]({})".format(cfg["bnb_faucet_url"]), inline=True)
+    embed.add_field(name="", value="<:cardano:1076971330919997520> [ADA]({})".format(cfg["ada_faucet_url"]), inline=True)
+    embed.add_field(name="", value="<:ava:1076971330919997520> [AVA]({})".format(cfg["ava_faucet_url"]), inline=True)
+    embed.add_field(name="", value="<:eth:1076971330919997520> [ETH]({})".format(cfg["eth_faucet_url"]), inline=True)
+    embed.add_field(name="", value="<:matic:1076971330919997520> [MATIC]({})".format(cfg["matic_faucet_url"]), inline=True)
+    embed.add_field(name="", value="<:coin:1076971629235687465> [Multi-coin]({})".format(cfg["multi_coin_faucet_url"]), inline=True)
+
+    await interaction.response.send_message(embed=embed)
+
+
+
 client.run(cfg["token"])
