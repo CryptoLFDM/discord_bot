@@ -2,3 +2,6 @@ discord
 humanize
 pyaml
 requests
+pyotp
+qrcode
+asyncio
